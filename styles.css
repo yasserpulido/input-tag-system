@@ -1,0 +1,78 @@
+.tag-system {
+  border: 1px solid #000000;
+  border-radius: 2px;
+  /* cursor: text; */
+  display: flex;
+  /* font-size: 13px; */
+  width: 200px;
+  /* min-height: 20px; */
+  /* position: relative; */
+}
+
+/* .tag-system__input-section {
+  display: flex;
+    flex-wrap: wrap;
+  width: 80%;
+} */
+
+.tag-system__control-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.tag-system__input {
+  border: none;
+  /* padding: 0; */
+  /* padding-left: 2px; */
+  /* margin: 2px 0; */
+  /* flex: 1; */
+  /* min-width: 20px; */
+  /* font-size: 1em; */
+}
+
+.tag-system__input:focus {
+  outline: none;
+}
+
+.tag-system__icon--btn-delete,
+.tag-system__icon--btn-arrow {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 16px;
+}
+
+.tag-system__list-section {
+  background-color: white;
+  border: 1px solid #bdc3c7;
+  border-radius: 3px;
+  position: absolute;
+  font-size: 14px;
+  height: 100px;
+  overflow-y: scroll;
+  left: 8px;
+  top: 1.8rem;
+  width: inherit;
+  display: none;
+}
+
+.tag-system__list-section--show {
+  display: block !important;
+}
+
+.tag-system__list-section ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tag-system__list-section ul li {
+  padding: 5px;
+}
+
+.tag-system__list-section ul li:hover {
+  cursor: pointer;
+  background-color: #bdc3c7;
+}
