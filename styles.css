@@ -76,3 +76,14 @@
   cursor: pointer;
   background-color: #bdc3c7;
 }
+
+.tag-system__tag {
+  background-color: #e74c3c;
+  border-radius: 3px;
+  color: #ecf0f1;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 4px;
+  font-size: 12px;
+  margin: 2px;
+}
