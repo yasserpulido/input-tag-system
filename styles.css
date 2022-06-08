@@ -1,19 +1,63 @@
-.tag-system {
-  border: 1px solid #000000;
-  border-radius: 2px;
-  /* cursor: text; */
+body {
+  background-color: #f39c12;
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+  flex-direction: column;
   display: flex;
-  /* font-size: 13px; */
-  width: 200px;
-  /* min-height: 20px; */
-  /* position: relative; */
+  margin: 0;
 }
 
-/* .tag-system__input-section {
+main {
+  align-items: center;
   display: flex;
-    flex-wrap: wrap;
-  width: 80%;
-} */
+  justify-content: center;
+}
+
+footer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+a {
+  font-weight: bold;
+  color: #000000;
+  text-decoration: none;
+}
+
+.jumbotron {
+  padding: 4rem 2rem;
+  margin: 2rem;
+  background-color: #ecf0f1;
+  border-radius: 0.3rem;
+}
+
+.jumbotron h1 {
+  font-size: 3.5rem;
+  line-height: 1.2;
+}
+
+.lead {
+  font-size: 1.25rem;
+}
+
+/* The following styles is related to the input TAG system. */
+.tag-system {
+  background-color: #ecf0f1;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  display: flex;
+  position: relative;
+  width: 600px;
+  min-height: 32px;
+}
+
+.tag-system__input-section {
+  display: flex;
+  flex-wrap: wrap;
+  width: inherit;
+}
 
 .tag-system__control-section {
   display: flex;
@@ -23,13 +67,13 @@
 }
 
 .tag-system__input {
+  background-color: #ecf0f1;
   border: none;
-  /* padding: 0; */
-  /* padding-left: 2px; */
-  /* margin: 2px 0; */
-  /* flex: 1; */
-  /* min-width: 20px; */
-  /* font-size: 1em; */
+  padding: 0;
+  margin: 2px;
+  flex: 1;
+  min-width: 20px;
+  font-size: 1em;
 }
 
 .tag-system__input:focus {
@@ -45,15 +89,13 @@
 }
 
 .tag-system__list-section {
-  background-color: white;
-  border: 1px solid #bdc3c7;
+  background-color: #ecf0f1;
+  border: 1px solid #000000;
   border-radius: 3px;
   position: absolute;
   font-size: 14px;
   height: 100px;
   overflow-y: scroll;
-  left: 8px;
-  top: 1.8rem;
   width: inherit;
   display: none;
 }
@@ -79,11 +121,30 @@
 
 .tag-system__tag {
   background-color: #e74c3c;
-  border-radius: 3px;
+  border-radius: 2px;
   color: #ecf0f1;
   display: inline-flex;
   align-items: center;
-  padding: 2px 4px;
-  font-size: 12px;
+  justify-content: center;
+  padding: 2px 6px;
+  vertical-align: middle;
   margin: 2px;
+}
+
+.tag-system__tag p {
+  margin: 0;
+}
+
+.tag-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 4px;
+  padding: 0 2px;
+  color: #ecf0f1;
+}
+
+.tag-delete:hover {
+  background-color: #c0392b;
 }

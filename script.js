@@ -1,73 +1,58 @@
 "strict mode";
 
+// Response MOCK.
 const response = [
   {
-    title: "The Shawshank Redemption",
+    title: "HTML",
     id: 0,
   },
   {
-    title: "The Godfather",
+    title: "CSS",
     id: 1,
   },
   {
-    title: "The Godfather: Part II",
+    title: "C#",
     id: 3,
   },
   {
-    title: "The Dark Knight",
+    title: "JavaScript",
     id: 4,
   },
   {
-    title: "12 Angry Men",
+    title: "TypeScript",
     id: 5,
   },
   {
-    title: "Schindler's List",
+    title: "Java",
     id: 6,
   },
   {
-    title: "Pulp Fiction",
+    title: "BEM",
     id: 7,
   },
   {
-    title: "The Lord of the Rings: The Return of the King",
+    title: "React",
     id: 8,
   },
-  { title: "The Good, the Bad and the Ugly", id: 9 },
-  { title: "Fight Club", id: 10 },
+  { title: "Angular", id: 9 },
+  { title: "Bootstrap", id: 10 },
 ];
 
 // Get elements from HTML.
 const tagSystem = document.querySelector(".tag-system");
 const inputSection = document.querySelector(".tag-system__input-section");
 const inputTagSystem = document.querySelector(".tag-system__input");
-const buttonArrow = document.querySelector(".tag-system__icon--btn-arrow");
-const buttonDelete = document.querySelector(".tag-system__icon--btn-delete");
 
 class App {
   #data = [];
   #tags = [];
-  ulPanel;
 
   constructor(response) {
     this.#data = response;
     inputTagSystem.addEventListener("focusin", this._inputFocus.bind(this));
     inputTagSystem.addEventListener("keyup", this._dropdownFilter.bind(this));
-    buttonDelete.addEventListener("click", this._resetField.bind(this));
-    buttonArrow.addEventListener("click", this._arrowToggle.bind(this));
     document.onclick = this._preventCloseDropdownPanel.bind(this);
   }
-
-  //   _selectList(ul) {
-  //     if (ul.target.className === "tag-system__list") {
-  //       inputTagSystem.value = ul.target.innerHTML;
-  //       inputTagSystem.focus();
-  //     }
-  //   }
-
-  //   _dropdrownArrow() {
-  //     this._displayToggle();
-  //   }
 
   // Reset the field
   _resetField() {
@@ -79,7 +64,6 @@ class App {
   _preventCloseDropdownPanel(e) {
     if (
       e.target.className !== "tag-system__list" &&
-      e.target.className !== "fa-solid fa-chevron-down" &&
       e.target.className !== "tag-system__input" &&
       e.target.className !== "tag-system__control-section" &&
       e.target.className !== "tag-system"
@@ -90,8 +74,16 @@ class App {
 
   // Filter dropdown list by value typed.
   _dropdownFilter(e) {
+    // If enter is typed.
     if (e.keyCode == 13) {
-      this._addTag(e.srcElement.value);
+      const result = this.#data.find(
+        (d) => d.title.toLowerCase() === e.target.value.toLowerCase()
+      );
+
+      //   Send an object.
+      if (result) {
+        this._addTag(result);
+      }
     }
 
     const result = this.#data.filter((d) => {
@@ -106,18 +98,6 @@ class App {
   _inputFocus() {
     this._dropdownList(this.#data);
     this._dropdownDisplay(true);
-  }
-
-  // Control behavior when arrow button is clicked.
-  _arrowToggle() {
-    const listSection = document.querySelector(".tag-system__list-section");
-
-    if (!listSection) {
-      this._dropdownList(this.#data);
-      this._dropdownDisplay(true);
-    } else {
-      this._dropdownDisplay(false);
-    }
   }
 
   // Control what data is going to be filled.
@@ -150,6 +130,15 @@ class App {
       objList.li.textContent = element.title;
       objList.ul.appendChild(objList.li);
     });
+
+    const listSection = document.querySelector(".tag-system__list-section");
+    listSection.addEventListener(
+      "click",
+      function (e) {
+        const result = this.#data.find((d) => d.id === +e.target.id);
+        this._addTag(result);
+      }.bind(this)
+    );
   }
 
   // Control HTML element with "No Options".
@@ -174,12 +163,19 @@ class App {
   // Control the visibility of the list section.
   _dropdownDisplay(hasData) {
     const listSection = document.querySelector(".tag-system__list-section");
-
     if (hasData) {
+      this._calculatePositionDropdownListPanel();
       listSection.classList.add("tag-system__list-section--show");
     } else {
       this._removeList();
     }
+  }
+
+  // Calculate dropdown list panel position.
+  _calculatePositionDropdownListPanel() {
+    const tagSystemHeight = tagSystem.offsetHeight;
+    const listSection = document.querySelector(".tag-system__list-section");
+    listSection.style.top = `${tagSystemHeight}px`;
   }
 
   // Remove the list section.
@@ -192,7 +188,7 @@ class App {
   }
 
   // Create HTML element related to tags.
-  _addTag(optionSelected) {
+  _addTag(data) {
     let objTag = {
       div: document.createElement("div"),
       span: document.createElement("span"),
@@ -202,26 +198,29 @@ class App {
       content: "",
     };
 
-    objTag.div.classList.add("tag-system__tag-section");
-    inputSection.appendChild(objTag.div);
-
-    objTag.span.classList.add("tag-system__tag");
     const tagSection = document.querySelector(".tag-system__tag-section");
+    if (!tagSection) {
+      // Add class and insert a div.
+      objTag.div.classList.add("tag-system__tag-section");
+      inputSection.insertBefore(objTag.div, inputTagSystem);
+    }
+
+    // Add class and insert a span.
+    objTag.span.classList.add("tag-system__tag");
     tagSection.appendChild(objTag.span, inputTagSystem[0]);
 
-    // objTag.p.addEventListener("click", function () {
-    //   _editTag(objTag);
-    // });
-    objTag.p.textContent = optionSelected.toLowerCase().trim();
+    // Add value to parragraph and content and then insert a parragraph.
+    objTag.p.textContent = data.title.toLowerCase().trim();
     objTag.content = objTag.p.textContent;
     objTag.span.appendChild(objTag.p);
+    objTag.p.addEventListener("click", this._editTag.bind(this, objTag));
 
+    // Add class to anchor and insert the anchor into span.
     objTag.a.classList.add("tag-delete");
-    // objTag.a.addEventListener("click", function () {
-    //   _deleteTag(objTag);
-    // });
     objTag.span.appendChild(objTag.a);
+    objTag.a.addEventListener("click", this._deleteTag.bind(this, objTag));
 
+    // Set class into i HTML element and then insert into anchor.
     objTag.i.setAttribute("class", "fa-solid fa-xmark");
     objTag.a.appendChild(objTag.i);
 
@@ -232,14 +231,14 @@ class App {
 
   // Delete tag.
   _deleteTag(tag) {
-    tags.splice(tags.indexOf(tag), 1);
+    this.#tags.splice(this.#tags.indexOf(tag), 1);
     tag.span.remove();
   }
 
   // Edit tag.
   _editTag(tag) {
-    _deleteTag(tag);
-    textInput[0].value = tag.p.textContent;
+    this._deleteTag(tag);
+    inputTagSystem.value = tag.p.textContent;
     tag.span.remove();
   }
 }
